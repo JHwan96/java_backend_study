@@ -1,4 +1,4 @@
-package fc.java.part3;
+package fc.java.model;
 
 public class BookDTO {
     public String title;
