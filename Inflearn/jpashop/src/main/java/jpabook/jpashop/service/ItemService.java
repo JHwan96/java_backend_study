@@ -19,7 +19,7 @@ public class ItemService {
         itemRepository.save(item);
     }
 
-    public List<Item> findItme(){
+    public List<Item> findItems(){
         return itemRepository.findAll();
     }
 
