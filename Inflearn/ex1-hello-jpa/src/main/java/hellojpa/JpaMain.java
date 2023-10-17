@@ -14,23 +14,19 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-//            Member member = new Member();
-//            member.setId(2L);
-//            member.setName("helloB");
-//            em.persist(member);       // 멤버 추가
+            //비영속
+            Member member = new Member();
+            member.setId(101L);
+            member.setName("HelloJPA");
 
-//            em.remove(findMember); // 멤버 삭제
-//            findMember.setName("helloJPA"); // 멤버 수정 (update해줌)
-//            Member findMember = em.find(Member.class, 1L); // 멤버 검색
+            //영속
+            System.out.println("=== BEFORE ===");
+            em.persist(member);
+            System.out.println("=== AFTER ===");
 
-            //JPQL
-            List<Member> result = em.createQuery("select m from Member m", Member.class)
-//                    .setFirstResult(5)
-//                    .setMaxResults(8)
-                    .getResultList();
-            for (Member member : result){
-                System.out.println("member.name = " + member.getName());
-            }
+            Member findMember = em.find(Member.class, 101L);
+            System.out.println("findMember.getId = " + findMember.getId());
+            System.out.println("findMember.getName = " + findMember.getName());
 
             tx.commit();
         } catch (Exception e){
