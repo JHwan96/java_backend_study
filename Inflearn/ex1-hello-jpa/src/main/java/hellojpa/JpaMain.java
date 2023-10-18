@@ -14,17 +14,12 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            // 준영속 (detach)
-            Member member = em.find(Member.class, 150L);
-            member.setName("AAAAA");
+            Member member = new Member();
+            member.setId(1L);
+            member.setUsername("A");
+            member.setRoleType(RoleType.GUEST);
 
-//            em.detach(member);  // JPA 에서 관리 안함
-//            em.close();   // 영속성 컨텍스트 종료
-            em.clear(); // 영속성 컨텍스트를 통으로 지움
-
-            Member member2 = em.find(Member.class, 150L);
-
-            System.out.println("=======================");
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e){
