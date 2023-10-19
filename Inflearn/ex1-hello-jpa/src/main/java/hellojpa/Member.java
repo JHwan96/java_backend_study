@@ -6,22 +6,16 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-// @SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq")   // sequence
-@TableGenerator(
-        name = "member_seq_generator",
-        table = "my_sequence",
-        pkColumnValue = "member_seq",
-        allocationSize =1)
 public class Member {
 
-    @Id     //PK
-    @GeneratedValue(strategy = GenerationType.TABLE, generator="member_seq_generator")
+    @Id @GeneratedValue
+    @Column(name="MEMBER_ID")
     private Long id;
-    @Column(name = "name", nullable = false)
+    @Column(name = "USERNAME")
     private String username;
 
-    protected Member() {
-    }
+    @Column(name = "TEAM_ID")
+    private Long teamId;
 
     public void setId(Long id) {
         this.id = id;
@@ -31,11 +25,19 @@ public class Member {
         this.username = username;
     }
 
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
+
     public Long getId() {
         return id;
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public Long getTeamId() {
+        return teamId;
     }
 }
