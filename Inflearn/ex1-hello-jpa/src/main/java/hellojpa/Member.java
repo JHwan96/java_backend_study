@@ -1,9 +1,6 @@
 package hellojpa;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 public class Member {
@@ -25,6 +22,11 @@ public class Member {
     public void setUsername(String username) {
         this.username = username;
     }
+    // 연관관계 편입 메서드 (한쪽만 사용함)
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this);
+//    }
 
     public void setTeam(Team team) {
         this.team = team;

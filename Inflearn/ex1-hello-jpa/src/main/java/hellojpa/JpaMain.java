@@ -14,26 +14,32 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Team team1 = new Team();
-            team1.setName("TeamA");
-            em.persist(team1);
-
-            Team team2 = new Team();
-            team2.setName("TeamB");
-            em.persist(team2);
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team1);
+//            member.changeTeam(team);  // 연관관계 편입 메서드
             em.persist(member);
 
-            // 객체 중심 모델링
-            Member findMember = em.find(Member.class, member.getId());
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam = " + findTeam.getName());
+            team.addMember(member);
+
+            em.flush();
+            em.clear();
+
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("============================");
+            for (Member m : members){
+                System.out.println("m = " + m.getUsername());
+            }
+            System.out.println("============================");
 
             tx.commit();
         } catch (Exception e){
+            System.out.println(e);
             tx.rollback();
         } finally{
             em.close();
