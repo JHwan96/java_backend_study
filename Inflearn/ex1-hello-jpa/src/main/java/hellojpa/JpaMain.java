@@ -14,19 +14,23 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
+            Team team1 = new Team();
+            team1.setName("TeamA");
+            em.persist(team1);
+
+            Team team2 = new Team();
+            team2.setName("TeamB");
+            em.persist(team2);
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeamId(team.getId());
+            member.setTeam(team1);
             em.persist(member);
 
-            // 데이터 중심 모델링일 때 조회 방법
+            // 객체 중심 모델링
             Member findMember = em.find(Member.class, member.getId());
-            Long findTeamId = findMember.getTeamId();
-            Team findTeam = em.find(Team.class, findTeamId);
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam = " + findTeam.getName());
 
             tx.commit();
         } catch (Exception e){
