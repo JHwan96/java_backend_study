@@ -22,9 +22,6 @@ public class JpaMain {
             member.setUsername("member1");
 //            member.changeTeam(team);  // 연관관계 편입 메서드
             em.persist(member);
-
-            team.addMember(member);
-
             em.flush();
             em.clear();
 

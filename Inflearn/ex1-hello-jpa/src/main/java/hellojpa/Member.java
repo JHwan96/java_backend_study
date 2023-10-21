@@ -11,8 +11,8 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne
-    @JoinColumn(name="TEAM_ID")
+    @ManyToOne  // 일대다 양방향
+    @JoinColumn(name="TEAM_ID", insertable = false, updatable = false)
     private Team team;
 
     public void setId(Long id) {
@@ -22,15 +22,6 @@ public class Member {
     public void setUsername(String username) {
         this.username = username;
     }
-    // 연관관계 편입 메서드 (한쪽만 사용함)
-//    public void changeTeam(Team team) {
-//        this.team = team;
-//        team.getMembers().add(this);
-//    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
 
     public Long getId() {
         return id;
@@ -38,9 +29,5 @@ public class Member {
 
     public String getUsername() {
         return username;
-    }
-
-    public Team getTeam() {
-        return team;
     }
 }
