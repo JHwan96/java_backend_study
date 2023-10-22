@@ -21,9 +21,8 @@ public class Member {
     @JoinColumn(name="TEAM_ID", insertable = false, updatable = false)
     private Team team;
 
-    @ManyToMany // 다대다 연관관계
-    @JoinTable(name = "MEMBER_PRODUCT")
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "member") // 다대다 연관관계
+    private List<MemberProduct> memberProducts = new ArrayList<>();
 
     public void setId(Long id) {
         this.id = id;
