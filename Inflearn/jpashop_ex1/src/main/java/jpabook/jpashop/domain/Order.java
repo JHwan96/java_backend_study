@@ -15,6 +15,10 @@ public class Order {
     @JoinColumn(name="member_id")
     private Member member;
 
+    @OneToOne
+    @JoinColumn(name="DELIVERY_ID")
+    private Delivery delivery;
+
     @OneToMany(mappedBy="order")
     private List<OrderItem> orderItems = new ArrayList<>();
     private LocalDateTime orderDate;    //ORDER_DATE, order_date

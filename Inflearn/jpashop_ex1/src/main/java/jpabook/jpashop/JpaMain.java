@@ -22,7 +22,7 @@ public class JpaMain {
             em.persist(order);
 
             order.addOrderItem(new OrderItem());
-            
+
             tx.commit();
         } catch (Exception e){
             tx.rollback();
