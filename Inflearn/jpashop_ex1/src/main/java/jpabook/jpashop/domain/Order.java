@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name="ORDERS")
-public class Order {
+public class Order extends BaseEntity{
     @Id @GeneratedValue
     @Column(name = "order_id")
     private Long id;
@@ -25,10 +25,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
-        orderItem.setOrder(this);
-    }
 
     public void setId(Long id) {
         this.id = id;
