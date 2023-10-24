@@ -9,7 +9,7 @@ public class Delivery extends BaseEntity{
     private String city;
     private String street;
     private String zipcode;
-    @OneToOne(mappedBy="delivery")
+    @OneToOne(mappedBy="delivery", fetch=FetchType.LAZY)
     private Order order;
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
