@@ -10,9 +10,9 @@ public class Member extends BaseEntity{
     @Column(name="member_id")
     private Long id;
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+    @Embedded
+    private Address address;
+
     @OneToMany(mappedBy="member")
     private List<Order> orders = new ArrayList<>();
 
@@ -20,21 +20,18 @@ public class Member extends BaseEntity{
         this.id = id;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
@@ -46,18 +43,6 @@ public class Member extends BaseEntity{
 
     public String getName() {
         return name;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public String getZipcode() {
-        return zipcode;
     }
 
     public List<Order> getOrders() {
