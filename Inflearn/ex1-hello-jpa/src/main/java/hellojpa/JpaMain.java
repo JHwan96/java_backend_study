@@ -1,6 +1,10 @@
 package hellojpa;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class JpaMain {
     public static void main(String[] args){
@@ -10,33 +14,26 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setHomeAddress(new Address("homeCity1", "street","10000"));
-            member.getFavoriteFoods().add("치킨");
-            member.getFavoriteFoods().add("족발");
-            member.getFavoriteFoods().add("피자");
+            // JPQL
+            List<Member> result = em.createQuery("select m from Member m where m.username like '%kim%'", Member.class)
+                    .getResultList();
 
-            member.getAddressHistory().add(new AddressEntity("old1", "street","10000"));
-            member.getAddressHistory().add(new AddressEntity("old2", "street","10000"));
+            // Criteria
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Member> query = cb.createQuery(Member.class);
+            // 루트 클래스 ( 조회를 시작할 클래스 )
+            Root<Member> m = query.from(Member.class);
+            // 쿼리 생성
+            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
+            List<Member> resultList = em.createQuery(cq).getResultList();
 
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-
-            System.out.println("=============== START ===============");
-            Member findMember = em.find(Member.class, member.getId());
-//            findMember.getAddressesHistory().setCity("") // 이렇게 하면 안됨
-//            Address oldAddress = findMember.getHomeAddress();
-//            findMember.setHomeAddress(new Address("newCity", oldAddress.getStreet(), oldAddress.getZipcode()));
-
-//            // 치킨 -> 한식
-//            findMember.getFavoriteFoods().remove("치킨");
-//            findMember.getFavoriteFoods().add("한식");
-//
-//            findMember.getAddressHistory().remove(new Address("old1", oldAddress.getStreet(), oldAddress.getZipcode()));
-//            findMember.getAddressHistory().add(new Address("newCity", oldAddress.getStreet(), oldAddress.getZipcode()));
+            // flush -> commit, query
+            // Native SQL
+            List<Member> resultList1 = em.createNativeQuery("select MEMBER_ID, city, street, zipcode, USERNAME from MEMBER", Member.class)
+                            .getResultList();
+            for (Member member : resultList1) {
+                System.out.println("member = " + member);
+            }
 
             tx.commit();
         } catch (Exception e){
