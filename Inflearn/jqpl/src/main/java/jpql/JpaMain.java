@@ -12,17 +12,16 @@ public class JpaMain {
        try {
             Member member = new Member();
             member.setUsername("member1");
+            member.setAge(10);
             em.persist(member);
 
-           TypedQuery<Member> query1 = em.createQuery("select m from Member m", Member.class);
-//           Query query3 = em.createQuery("select m.username, m.age from Member m");
-           List<Member> resultList = query1.getResultList();
-           // 파라미터 바인딩
-           Member singleResult = em.createQuery("select m from Member m where m.username = :username", Member.class)
-                   .setParameter("username", "member1")
-                   .getSingleResult();//getSingleResult
-           System.out.println("singleResult.getUsername() = " + singleResult.getUsername());
+           List<MemberDTO> result = em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+                   .getResultList();
+           MemberDTO memberDTO = result.get(0);
+           System.out.println("memberDTO = " + memberDTO.getUsername());
+           System.out.println("memberDTO.getAge() = " + memberDTO.getAge());
 
+           tx.commit();
        } catch(Exception e){
            tx.rollback();
            e.printStackTrace();
