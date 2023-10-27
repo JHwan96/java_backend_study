@@ -9,7 +9,7 @@ public class Order {
     @Id @GeneratedValue
     private Long id;
     private int orderAmount;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="PRODUCT_ID")
     private Product product;
     @Embedded

@@ -10,16 +10,33 @@ public class JpaMain {
        EntityTransaction tx = em.getTransaction();
        tx.begin();
        try {
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setAge(10);
-            em.persist(member);
+           Team team = new Team();
+           team.setName("teamA");
+           em.persist(team);
 
-           List<MemberDTO> result = em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+           Member member = new Member();
+           member.setUsername("member1");
+           member.setAge(19);
+           member.setTeam(team);
+
+           em.persist(member);
+
+           em.flush();
+           em.clear();
+
+//            // 페이징 연습
+//           List<Member> result = em.createQuery("select m from Member m order by m.age desc", Member.class)
+//                   .setFirstResult(0)
+//                   .setMaxResults(10)
+//                   .getResultList();
+
+//           // Join
+//           String query = "select m from Member m left join m.team t where t.name = :teamName";
+//           String thetaQuery = "select m from Member m, Team t where m.username = :teamName";
+           String query = "select m from Member m left join m.team t on t.name = :teamName";
+           List<Member> result = em.createQuery(query, Member.class)
+                   .setParameter("teamName", "teamA")
                    .getResultList();
-           MemberDTO memberDTO = result.get(0);
-           System.out.println("memberDTO = " + memberDTO.getUsername());
-           System.out.println("memberDTO.getAge() = " + memberDTO.getAge());
 
            tx.commit();
        } catch(Exception e){
