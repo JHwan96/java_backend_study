@@ -18,25 +18,23 @@ public class JpaMain {
            member.setUsername("member1");
            member.setAge(19);
            member.setTeam(team);
+           member.setMemberType(MemberType.ADMIN);
 
            em.persist(member);
 
            em.flush();
            em.clear();
 
-//            // 페이징 연습
-//           List<Member> result = em.createQuery("select m from Member m order by m.age desc", Member.class)
-//                   .setFirstResult(0)
-//                   .setMaxResults(10)
-//                   .getResultList();
-
-//           // Join
-//           String query = "select m from Member m left join m.team t where t.name = :teamName";
-//           String thetaQuery = "select m from Member m, Team t where m.username = :teamName";
-           String query = "select m from Member m left join m.team t on t.name = :teamName";
-           List<Member> result = em.createQuery(query, Member.class)
-                   .setParameter("teamName", "teamA")
+           String query = "select m.username, 'HELLO', true From Member m " +
+                   "where m.type = :userType";
+           List<Object[]> result = em.createQuery(query)
+                   .setParameter("userType", MemberType.ADMIN)
                    .getResultList();
+           for(Object[] objects : result){
+               System.out.println("objects[0] = " + objects[0]);
+               System.out.println("objects[0] = " + objects[1]);
+               System.out.println("objects[0] = " + objects[2]);
+           }
 
            tx.commit();
        } catch(Exception e){

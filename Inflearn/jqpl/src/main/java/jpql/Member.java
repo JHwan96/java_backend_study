@@ -11,6 +11,16 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="TEAM_ID")
     private Team team;
+    @Enumerated(EnumType.STRING)
+    private MemberType type;
+
+    public MemberType getMemberType() {
+        return type;
+    }
+
+    public void setMemberType(MemberType memberType) {
+        this.type = memberType;
+    }
 
     public void changeTeam(Team team){
         this.team = team;
