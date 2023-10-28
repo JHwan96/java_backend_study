@@ -15,25 +15,38 @@ public class JpaMain {
            em.persist(team);
 
            Member member = new Member();
-           member.setUsername("member1");
-           member.setAge(19);
-           member.setTeam(team);
-           member.setMemberType(MemberType.ADMIN);
-
+           member.setUsername("관리자");
            em.persist(member);
+           Member member2 = new Member();
+           member2.setUsername("관리자");
+           em.persist(member2);
 
            em.flush();
            em.clear();
 
-           String query = "select m.username, 'HELLO', true From Member m " +
-                   "where m.type = :userType";
-           List<Object[]> result = em.createQuery(query)
-                   .setParameter("userType", MemberType.ADMIN)
+//           // case 문 예제
+//           String query =   "select "+
+//                                "case when m.age <= 10 then '학생요금' " +
+//                                     "when m.age >= 60 then '경로요금' " +
+//                                     "else '일반요금' " +
+//                                "end " +
+//                            "from Member m";
+
+//           // COALESCE
+//           String query = "select coalesce(m.username, '이름 없는 회원') from Member m";
+
+//           // NULLIF
+//           String query = "select nullif(m.username, '관리자') as username from Member m";
+
+           String query = "select concat('a','b') From Member m"; // a || b와 동일, 이어붙이기
+           String query1 = "select substring(m.username, 2,3) From Member m"; // 잘라내기
+           String query2 = "select locate('de', 'abcdefg') From Member m";  // 위치 index 반환
+           String query3 = "select function('group_concat', m.username) From Member m";
+
+           List<String> result = em.createQuery(query3, String.class)
                    .getResultList();
-           for(Object[] objects : result){
-               System.out.println("objects[0] = " + objects[0]);
-               System.out.println("objects[0] = " + objects[1]);
-               System.out.println("objects[0] = " + objects[2]);
+           for (String s : result) {
+               System.out.println("s = " + s);
            }
 
            tx.commit();
