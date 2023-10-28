@@ -13,6 +13,8 @@ public class Team {
     private Long id;
     private String name;
 
+    @OneToMany(mappedBy="team")
+    private List<Member> member = new ArrayList<>();
     public Long getId() {
         return id;
     }
@@ -37,8 +39,7 @@ public class Team {
         this.member = member;
     }
 
-    @OneToMany(mappedBy="team")
-    private List<Member> member = new ArrayList<>();
+
 
 
 }

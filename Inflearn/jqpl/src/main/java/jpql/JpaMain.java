@@ -10,43 +10,44 @@ public class JpaMain {
        EntityTransaction tx = em.getTransaction();
        tx.begin();
        try {
-           Team team = new Team();
-           team.setName("teamA");
-           em.persist(team);
+           Team teamA = new Team();
+           teamA.setName("팀A");
+           em.persist(teamA);
 
-           Member member = new Member();
-           member.setUsername("관리자");
-           em.persist(member);
+           Team teamB = new Team();
+           teamB.setName("팀B");
+           em.persist(teamB);
+
+           Member member1 = new Member();
+           member1.setUsername("회원1");
+           member1.setTeam(teamA);
+           em.persist(member1);
+
            Member member2 = new Member();
-           member2.setUsername("관리자");
+           member2.setUsername("회원2");
+           member2.setTeam(teamA);
            em.persist(member2);
+
+           Member member3 = new Member();
+           member3.setUsername("회원3");
+           member3.setTeam(teamB);
+           em.persist(member3);
 
            em.flush();
            em.clear();
 
-//           // case 문 예제
-//           String query =   "select "+
-//                                "case when m.age <= 10 then '학생요금' " +
-//                                     "when m.age >= 60 then '경로요금' " +
-//                                     "else '일반요금' " +
-//                                "end " +
-//                            "from Member m";
+           String query = "select distinct t from Team t join fetch t.member";
 
-//           // COALESCE
-//           String query = "select coalesce(m.username, '이름 없는 회원') from Member m";
+           List<Team> result = em.createQuery(query, Team.class)
+                           .getResultList();
+           for (Team team : result){
+               System.out.println("member : " + team.getName() );
+               for ( Member member : team.getMember()){
+                   System.out.println("member = " + member);
+               }
 
-//           // NULLIF
-//           String query = "select nullif(m.username, '관리자') as username from Member m";
-
-           String query = "select concat('a','b') From Member m"; // a || b와 동일, 이어붙이기
-           String query1 = "select substring(m.username, 2,3) From Member m"; // 잘라내기
-           String query2 = "select locate('de', 'abcdefg') From Member m";  // 위치 index 반환
-           String query3 = "select function('group_concat', m.username) From Member m";
-
-           List<String> result = em.createQuery(query3, String.class)
-                   .getResultList();
-           for (String s : result) {
-               System.out.println("s = " + s);
+               // join fetch 사용하지 않았을 때:
+               // 회원 100명 -> N+1번의 SQL (101번)
            }
 
            tx.commit();
