@@ -36,20 +36,17 @@ public class JpaMain {
            em.flush();
            em.clear();
 
-           String query = "select distinct t from Team t join fetch t.member";
+           // 기본 키 직접 사용
+//           String query1 = "select count(m) from Member m";
+           // 외래 키 직접 사용
+           String query = "select m from Member m where m.team = :team";
 
-           List<Team> result = em.createQuery(query, Team.class)
-                           .getResultList();
-           for (Team team : result){
-               System.out.println("member : " + team.getName() );
-               for ( Member member : team.getMember()){
-                   System.out.println("member = " + member);
-               }
-
-               // join fetch 사용하지 않았을 때:
-               // 회원 100명 -> N+1번의 SQL (101번)
+           List<Member> members = em.createQuery(query, Member.class)
+                   .setParameter("team", teamA)
+                   .getResultList();
+           for(Member member : members) {
+               System.out.println("member : " + member);
            }
-
            tx.commit();
        } catch(Exception e){
            tx.rollback();
