@@ -36,17 +36,14 @@ public class JpaMain {
            em.flush();
            em.clear();
 
-           // 기본 키 직접 사용
-//           String query1 = "select count(m) from Member m";
-           // 외래 키 직접 사용
-           String query = "select m from Member m where m.team = :team";
-
-           List<Member> members = em.createQuery(query, Member.class)
-                   .setParameter("team", teamA)
+           List<Member> resultList = em.createNamedQuery("Member.findByUsername", Member.class)
+                   .setParameter("username", member1.getUsername())
                    .getResultList();
-           for(Member member : members) {
-               System.out.println("member : " + member);
+           for (Member member : resultList){
+               System.out.println("member :" + member);
            }
+
+
            tx.commit();
        } catch(Exception e){
            tx.rollback();
