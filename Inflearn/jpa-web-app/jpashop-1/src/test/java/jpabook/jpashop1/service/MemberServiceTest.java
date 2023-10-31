@@ -1,12 +1,11 @@
-package jpabook.jpashop1.domain.service;
+package jpabook.jpashop1.service;
 
 import jpabook.jpashop1.domain.Member;
-import jpabook.jpashop1.domain.repository.MemberRepository;
+import jpabook.jpashop1.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,8 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
-    @Autowired MemberService memberService;
+    @Autowired
+    MemberService memberService;
     @Autowired MemberRepository memberRepository;
     @Test
     public void 회원가입() throws Exception{
