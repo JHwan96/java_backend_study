@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -40,4 +42,35 @@ public class ItemController {
         model.addAttribute("items", items);
         return "items/itemList";
     }
+
+    @GetMapping("/items/{itemId}/edit")
+    public String updateItemForm(@PathVariable("itemId") Long itemId, Model model){
+        Book findItem = (Book) itemService.findOne(itemId);
+        BookForm form = new BookForm();
+        form.setId(findItem.getId());
+        form.setName(findItem.getName());
+        form.setPrice(findItem.getPrice());
+        form.setStockQuantity(findItem.getStockQuantity());
+        form.setIsbn(findItem.getIsbn());
+        form.setAuthor(findItem.getAuthor());
+
+        model.addAttribute("form", form);
+        return "items/updateItemForm.html";
+    }
+
+    @PostMapping("/items/{itemId}/edit")
+    public String updateItem(@PathVariable("itemId") Long itemId, @ModelAttribute("form") BookForm bookForm){
+//        Book book = new Book();
+//        book.setId(bookForm.getId());
+//        book.setName(bookForm.getName());
+//        book.setPrice(bookForm.getPrice());
+//        book.setStockQuantity(bookForm.getStockQuantity());
+//        book.setAuthor(bookForm.getAuthor());
+//        book.setIsbn(bookForm.getIsbn());
+//        itemService.saveItem(book);
+
+        itemService.updateItem(itemId, bookForm.getName(), bookForm.getPrice(), bookForm.getStockQuantity());
+        return "redirect:/items";
+    }
+
 }
