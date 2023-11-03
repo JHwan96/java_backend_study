@@ -30,7 +30,7 @@ public class OrderRepository {
         return em.createQuery("select o from Order o join o.member" +
                         "where o.status = :status " +
                         "and m.name like :name", Order.class)
-                .setParameter("status", orderSearch.getStatus())
+                .setParameter("status", orderSearch.getOrderStatus())
                 .setParameter("name", orderSearch.getMemberName())
                 .setMaxResults(1000) // 최대 1000건
                 .getResultList();
@@ -40,14 +40,14 @@ public class OrderRepository {
         String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
         //주문 상태 검색
-        if (orderSearch.getStatus() != null) {
+        if (orderSearch.getOrderStatus() != null) {
             if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;
             } else {
                 jpql += " and";
             }
-            jpql += " o.status = :status";
+            jpql += " o.orderStatus = :status";
         }
         //회원 이름 검색
         if (StringUtils.hasText(orderSearch.getMemberName())) {
@@ -61,8 +61,8 @@ public class OrderRepository {
         }
         TypedQuery<Order> query = em.createQuery(jpql, Order.class)
                 .setMaxResults(1000); //최대 1000건
-        if (orderSearch.getStatus() != null) {
-            query = query.setParameter("status", orderSearch.getStatus());
+        if (orderSearch.getOrderStatus() != null) {
+            query = query.setParameter("status", orderSearch.getOrderStatus());
         }
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             query = query.setParameter("name", orderSearch.getMemberName());
@@ -77,9 +77,9 @@ public class OrderRepository {
         Join<Order, Member> m = o.join("member", JoinType.INNER); //회원과 조인
         List<Predicate> criteria = new ArrayList<>();
         //주문 상태 검색
-        if (orderSearch.getStatus() != null) {
+        if (orderSearch.getOrderStatus() != null) {
             Predicate status = cb.equal(o.get("status"),
-                    orderSearch.getStatus());
+                    orderSearch.getOrderStatus());
             criteria.add(status);
         }
         //회원 이름 검색
