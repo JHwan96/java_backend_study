@@ -1,6 +1,6 @@
-package hello.servlet.web.frontcontroller.v1;
+package hello.servlet.web.frontcontroller.v1.controller;
 
-import hello.servlet.domain.member.Member;
+import hello.servlet.web.frontcontroller.v1.controller.ControllerV1;
 import hello.servlet.web.frontcontroller.v1.controller.MemberFormControllerV1;
 import hello.servlet.web.frontcontroller.v1.controller.MemberListControllerV1;
 import hello.servlet.web.frontcontroller.v1.controller.MemberSaveControllerV1;
