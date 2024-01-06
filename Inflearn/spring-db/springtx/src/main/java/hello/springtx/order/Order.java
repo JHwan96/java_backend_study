@@ -1,4 +1,4 @@
-package hello.springtx;
+package hello.springtx.order;
 
 import lombok.Getter;
 import lombok.Setter;

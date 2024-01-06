@@ -1,4 +1,4 @@
-package hello.springtx;
+package hello.springtx.order;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

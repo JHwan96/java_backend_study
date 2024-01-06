@@ -1,4 +1,4 @@
-package hello.springtx;
+package hello.springtx.propagation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package hello.springtx;
+package hello.springtx.order;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

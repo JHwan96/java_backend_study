@@ -1,5 +1,9 @@
-package hello.springtx;
+package hello.springtx.order;
 
+import hello.springtx.order.NotEnoughMoneyException;
+import hello.springtx.order.Order;
+import hello.springtx.order.OrderRepository;
+import hello.springtx.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,13 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @Slf4j
 @SpringBootTest
 class OrderServiceTest {
-    @Autowired OrderService orderService;
-    @Autowired OrderRepository orderRepository;
+    @Autowired
+    OrderService orderService;
+    @Autowired
+    OrderRepository orderRepository;
 
     @Test
     void comlete() throws NotEnoughMoneyException {
