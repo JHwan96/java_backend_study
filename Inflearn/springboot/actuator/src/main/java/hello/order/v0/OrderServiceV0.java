@@ -1,11 +1,12 @@
-package hello.order;
+package hello.order.v0;
 
+import hello.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
-public class OrderServiceV0 implements OrderService{
+public class OrderServiceV0 implements OrderService {
     private AtomicInteger stock = new AtomicInteger(100);
     @Override
     public void order() {

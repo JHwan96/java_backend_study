@@ -1,7 +1,6 @@
 package hello.order.v0;
 
 import hello.order.OrderService;
-import hello.order.OrderServiceV0;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
