@@ -15,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserRequest {
-    private String user_name;
+    private String userName;
     private Integer userAge;
     private String email;
     private Boolean isKorean;
