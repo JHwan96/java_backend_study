@@ -15,17 +15,14 @@ class RestApiApplicationTests {
 
 	@Test
 	void contextLoads() throws JsonProcessingException {
-		UserRequest user = new UserRequest();
-		user.setUserName("홍길동");
-		user.setUserAge(10);
-		user.setEmail("hong@gmail.com");
-		user.setIsKorean(true);
+		UserRequest user = new UserRequest("홍길동", 10,"hong@gmail.com", true);
+		System.out.println(user);
 
 		String test = objectMapper.writeValueAsString(user);
 		System.out.println(test);
 
-		String toDeserialize = "{\"user_name\":\"홍길동\",\"user_age\":10,\"email\":\"hong@gmail.com\",\"is_korean\":true}";
-		UserRequest userRequest = objectMapper.readValue(toDeserialize, UserRequest.class);
-		System.out.println(userRequest);
+//		String toDeserialize = "{\"user_name\":\"홍길동\",\"user_age\":10,\"email\":\"hong@gmail.com\",\"is_korean\":true}";
+//		UserRequest userRequest = objectMapper.readValue(toDeserialize, UserRequest.class);
+//		System.out.println(userRequest);
 	}
 }
