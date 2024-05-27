@@ -2,6 +2,7 @@ package com.example.simple_board.board.service;
 
 import com.example.simple_board.board.db.BoardEntity;
 import com.example.simple_board.board.db.BoardRepository;
+import com.example.simple_board.board.model.BoardDto;
 import com.example.simple_board.board.model.BoardRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,13 +11,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final BoardConverter boardConverter;
 
-    public BoardEntity create(BoardRequest boardRequest) {
+    public BoardDto create(BoardRequest boardRequest) {
         BoardEntity entity = BoardEntity.builder()
                 .boardName(boardRequest.getBoardName())
                 .status("REGISTERED")
                 .build();
 
-        return boardRepository.save(entity);
+        BoardEntity boardEntity = boardRepository.save(entity);
+        return boardConverter.toDto(boardEntity);
+    }
+
+    public BoardDto view(Long id) {
+        BoardEntity boardEntity = boardRepository.findById(id).get();
+        return boardConverter.toDto(boardEntity);
     }
 }

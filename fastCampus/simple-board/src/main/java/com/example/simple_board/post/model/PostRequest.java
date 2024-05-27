@@ -20,10 +20,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PostRequest {
+    private Long boardId = 1L;
     @NotBlank
     private String userName;
     @NotBlank
-    @Size(min=4, max=4)
+    @Size(min = 4, max = 4)
     private String password;
     @NotBlank
     @Email
