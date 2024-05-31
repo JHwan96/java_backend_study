@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     //login logic
-    public void login(LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
+    public String login(LoginRequest loginRequest, HttpServletResponse httpServletResponse) {
         String id = loginRequest.getId();
         String password = loginRequest.getPassword();
 
@@ -24,18 +24,11 @@ public class UserService {
             UserDto userDto = optionalUser.get();
 
             if(userDto.getPassword().equals(password)){
-                // 쿠키에 해당 정보 저장
-                Cookie cookie = new Cookie("authorization-cookie", userDto.getId());
-                cookie.setDomain("localhost");
-                cookie.setPath("/");
-                cookie.setMaxAge(-1);   //session
-//                cookie.setSecure(true);
-                cookie.setHttpOnly(true);
-
-                httpServletResponse.addCookie(cookie);
+               return userDto.getId();
             }
         } else {
             throw new RuntimeException("User Not Found");
         }
+        return null;
     }
 }

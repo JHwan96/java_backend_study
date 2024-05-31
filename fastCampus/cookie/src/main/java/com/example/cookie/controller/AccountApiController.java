@@ -6,6 +6,7 @@ import com.example.cookie.model.UserDto;
 import com.example.cookie.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class AccountApiController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse){
-        userService.login(loginRequest, httpServletResponse);
+    public String login(@RequestBody LoginRequest loginRequest, HttpServletResponse httpServletResponse, HttpSession httpSession){
+        return userService.login(loginRequest, httpServletResponse);
     }
 }
